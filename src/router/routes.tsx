@@ -10,11 +10,11 @@ export const routes = createBrowserRouter([
     },
 
     {
-        path: "/menu",
+        path: "/mobile/menu",
         element: <MenuPage/>
     },
     {
-        path: "/lowPop",
+        path: "/mobile/lowPop",
         element: <LowPop/>
     }
 ])

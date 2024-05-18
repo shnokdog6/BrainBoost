@@ -54,9 +54,9 @@ const MenuPage = () => {
         <StyledWrapper>
             <StyledCentredWrapper>
                 <StyledButtonWrapper>
-                    <StyledButton onClick={() => navigate("/lowPop")}>LowPop</StyledButton>
+                    <StyledButton onClick={() => navigate("/mobile/lowPop")}>LowPop</StyledButton>
                     <StyledButton>Memory Sweep</StyledButton>
-                    <StyledButton onClick={() => navigate("/")}>Назад</StyledButton>
+                    <StyledButton onClick={() => navigate("/mobile")}>Назад</StyledButton>
                 </StyledButtonWrapper>
             </StyledCentredWrapper>
         </StyledWrapper>

@@ -48,7 +48,7 @@ const PauseMenu: FC<PauseMenuProps> = ({isVisible, setIsVisible}) => {
 
     function leave() {
         setIsVisible(false);
-        navigate("/menu");
+        navigate("/mobile/menu");
     }
 
     return (
