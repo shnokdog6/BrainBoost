@@ -1,20 +1,20 @@
-import {createBrowserRouter} from "react-router-dom";
+import {createBrowserRouter, createHashRouter} from "react-router-dom";
 import MainPage from "../pages/MainPage";
 import MenuPage from "../pages/MenuPage";
 import LowPop from "../pages/LowPop";
 
-export const routes = createBrowserRouter([
+export const routes = createHashRouter([
     {
-        path: "/mobile",
+        path: "/",
         element: <MainPage/>,
     },
 
     {
-        path: "/mobile/menu",
+        path: "/menu",
         element: <MenuPage/>
     },
     {
-        path: "/mobile/lowPop",
+        path: "/lowPop",
         element: <LowPop/>
     }
 ])
