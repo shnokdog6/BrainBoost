@@ -5,15 +5,16 @@ import LowPop from "../pages/LowPop";
 
 export const routes = createBrowserRouter([
     {
-        path: "/",
-        element: <MainPage/>
+        path: "/mobile",
+        element: <MainPage/>,
     },
+
     {
-        path: "/menu",
+        path: "/mobile/menu",
         element: <MenuPage/>
     },
     {
-        path: "/lowPop",
+        path: "/mobile/lowPop",
         element: <LowPop/>
     }
 ])
