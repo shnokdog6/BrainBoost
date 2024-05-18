@@ -7,8 +7,8 @@ const StyledButton = styled.div`
     position: absolute;
     top: 10px;
     left: 10px;
-    width: 15px;
-    height: 15px;
+    width: 5%;
+    height: 5%;
     background: url(${icon}) no-repeat;
     background-size: contain;
 `;

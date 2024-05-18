@@ -40,10 +40,15 @@ const StyledButton = styled.button`
     outline: none;
     border: none;
     font-size: 32px;
-    min-width: 300px;
+    width: 100%;
     background-color: rgba(0, 0, 0, 0.7);
     color: white;
     padding: 10px 20px;
+
+    @media (min-width: 992px) {
+        font-size: 5rem;
+        padding: 50px 70px;
+    }
 `;
 
 

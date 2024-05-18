@@ -42,6 +42,12 @@ const StyledWrapper = styled.div<{ $disabled: boolean; }>`
     position: relative;
     opacity: ${props => props.$disabled ? 0 : 1};
     animation: ${appearAnimation} 0.25s ease-in-out;
+
+    @media (min-width: 992px) {
+        width: 200px;
+        height: 200px;
+        font-size: 4rem;
+    }
 `;
 
 const StyledContent = styled.div`

@@ -30,6 +30,10 @@ const StyledHeader = styled.h1`
     width: fit-content;
     height: fit-content;
     margin-bottom: 70px;
+
+    @media (min-width: 992px) {
+        font-size: 10rem;
+    }
 `;
 
 const StyledButtonWrapper = styled.div`
@@ -44,11 +48,16 @@ const StyledButtonWrapper = styled.div`
 const StyledButton = styled.button`
     outline: none;
     border: none;
-    font-size: 32px;
-    min-width: 300px;
+    font-size: 2rem;
+    width: 100%;
     background-color: rgba(0, 0, 0, 0.7);
     color: white;
     padding: 10px 20px;
+    
+    @media (min-width: 992px) {
+        font-size: 5rem;
+        padding: 50px 70px;
+    }
 `;
 
 

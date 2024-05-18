@@ -18,14 +18,23 @@ const StyledWrapper = styled.div`
 `;
 
 const StyledGrid = styled.div`
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
     display: grid;
-    height: 100%;
-    padding: 40px 10px 10px 10px;
+    height: 95%;
+    padding: 10px;
     gap: 10px;
     align-items: center;
     grid-template-columns: repeat(auto-fill, 100px);
     grid-template-rows: repeat(auto-fill, 100px);
     justify-content: center;
+
+    @media (min-width: 992px) {
+        grid-template-columns: repeat(auto-fill, 200px);
+        grid-template-rows: repeat(auto-fill, 200px);
+    }
 `;
 
 
