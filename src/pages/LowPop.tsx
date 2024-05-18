@@ -30,11 +30,6 @@ const StyledGrid = styled.div`
     grid-template-columns: repeat(auto-fill, 100px);
     grid-template-rows: repeat(auto-fill, 100px);
     justify-content: center;
-
-    @media (min-width: 992px) {
-        grid-template-columns: repeat(auto-fill, 200px);
-        grid-template-rows: repeat(auto-fill, 200px);
-    }
 `;
 
 
@@ -45,7 +40,6 @@ function getRandomInt(min: number, max: number) {
 }
 
 const LowPop = () => {
-    const [pauseMenuPlaceholder, showPauseMenu, pauseMenuIsVisible] = usePauseMenu();
     const keys = useUniqueKeys(LowPop.name, 21);
     const [buttons, setButtons] = useState<Array<number | null>>([]);
     const [cellCount, setCellCount] = useState(0);
@@ -54,33 +48,31 @@ const LowPop = () => {
     const grid = useRef<HTMLDivElement>(null);
     const [failMessagePlaceholder, showFailMessage, onFailMessageHide] = useFailMessage(1);
     const [passMessagePlaceholder, showPassMessage, onPassMessageHide] = usePassMessage(1);
+    const [pauseMenuPlaceholder, showPauseMenu, pauseMenuIsVisible] = usePauseMenu();
 
     function onButtonClick(id: number, content: number) {
-
-
-        const newButtons = [...buttons];
-        newButtons[id] = null;
-        setButtons(newButtons);
-
         if (numbers[0] !== content) {
             showFailMessage();
+            setButtons(new Array(cellCount).fill(null));
             return;
         }
 
         setScore(prev => prev + 10);
         if (numbers.length === 1) {
             showPassMessage();
+            setButtons(new Array(cellCount).fill(null));
             return;
         }
 
         setNumbers(numbers.slice(1, numbers.length));
-
+        const newButtons = [...buttons];
+        newButtons[id] = null;
+        setButtons(newButtons);
 
     }
 
     function generateSubsequence() {
-        const count = getRandomInt(5, 16);
-        console.log(cellCount);
+        const count = getRandomInt(5, 10);
         const array: Array<number | null> = new Array<number | null>(cellCount).fill(null);
         const used = new Array<number>();
 
@@ -97,7 +89,6 @@ const LowPop = () => {
 
     function generateLevel() {
         const subsequence = generateSubsequence();
-        console.log(subsequence);
         setNumbers((subsequence
             .filter(item => item != null) as number[])
             .sort((a, b) => a - b)
@@ -109,7 +100,7 @@ const LowPop = () => {
     useEffect(() => {
         const layout = grid.current;
         if (layout == null) return;
-        const columnCount =  window.getComputedStyle(layout).gridTemplateColumns.split(" ").length;
+        const columnCount = window.getComputedStyle(layout).gridTemplateColumns.split(" ").length;
         const rowsCount = window.getComputedStyle(layout).gridTemplateRows.split(" ").length;
 
         setCellCount(columnCount * rowsCount);
@@ -128,6 +119,7 @@ const LowPop = () => {
         generateLevel();
     }, [cellCount]);
 
+
     return (
         <StyledWrapper>
             {failMessagePlaceholder}
@@ -136,14 +128,13 @@ const LowPop = () => {
             <PauseButton onClick={showPauseMenu} aria-disabled={pauseMenuIsVisible}/>
             <Score count={score}/>
             <StyledGrid ref={grid}>
-                {buttons.map((item, index) => {
-                        if (item) {
-                            return <OctagonButton key={keys[index]} onClick={() => onButtonClick(index, item)}>
-                                {item}
-                            </OctagonButton>
-                        }
-                        return <OctagonButton key={keys[index]} disabled/>
-                    }
+                {buttons.map((item, index) => item
+                    ?
+                    <OctagonButton key={keys[index]} onClick={() => onButtonClick(index, item)}>
+                        {item}
+                    </OctagonButton>
+                    :
+                    <OctagonButton key={keys[index]}/>
                 )}
             </StyledGrid>
         </StyledWrapper>

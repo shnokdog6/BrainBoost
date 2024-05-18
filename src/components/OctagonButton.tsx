@@ -1,19 +1,11 @@
-import React, {FC, memo, PropsWithChildren, useEffect, useState} from 'react';
+import React, {FC, memo, PropsWithChildren, useEffect, useRef, useState} from 'react';
 import styled, {keyframes} from "styled-components";
 import {Keyframes} from "styled-components/dist/types";
 
 export interface ButtonProps extends PropsWithChildren {
     onClick?: () => void;
-    disabled?: boolean;
 }
 
-const idleAnimation = keyframes`
-    from {
-    }
-    to {
-        transform: scale(100%);
-    }
-`;
 
 const appearAnimation = keyframes`
     from {
@@ -33,21 +25,15 @@ const disappearAnimation = keyframes`
     }
 `;
 
-const StyledWrapper = styled.div<{ $disabled: boolean; }>`
+const StyledWrapper = styled.div<{$animation: Keyframes | string; }>`
     width: 100px;
     height: 100px;
     font-size: 2rem;
     background-color: white;
     clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
     position: relative;
-    opacity: ${props => props.$disabled ? 0 : 1};
-    animation: ${appearAnimation} 0.25s ease-in-out;
-
-    @media (min-width: 992px) {
-        width: 200px;
-        height: 200px;
-        font-size: 4rem;
-    }
+    
+    animation: ${props => props.$animation} 0.25s ease-in-out forwards;
 `;
 
 const StyledContent = styled.div`
@@ -68,11 +54,30 @@ const StyledContent = styled.div`
 `;
 
 
-const OctagonButton: FC<ButtonProps> = memo(({children, onClick, disabled}) => {
+const OctagonButton: FC<ButtonProps> = memo(({children, onClick}) => {
+    const [animation, setAnimation] = useState<Keyframes | string>("none")
 
+    useEffect(() => {
+        if (children) {
+            setAnimation(appearAnimation);
+            return;
+        }
+        setAnimation(disappearAnimation);
+    }, [children]);
+
+    useEffect(() => {
+        return () => {
+            setAnimation("none");
+        }
+    }, []);
+
+    function handleClick() {
+        setAnimation(disappearAnimation);
+        onClick?.();
+    }
 
     return (
-        <StyledWrapper $disabled={disabled || false} onClick={onClick}>
+        <StyledWrapper onClick={handleClick} $animation={animation}>
             <StyledContent>
                 {children}
             </StyledContent>

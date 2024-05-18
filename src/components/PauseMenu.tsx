@@ -41,10 +41,6 @@ const StyledButton = styled.button`
     width: 100%;
     padding: 10px 20px;
 
-    @media (min-width: 992px) {
-        font-size: 5rem;
-        padding: 50px 70px;
-    }
 `;
 
 
