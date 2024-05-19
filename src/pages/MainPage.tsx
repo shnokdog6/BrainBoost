@@ -49,15 +49,10 @@ const StyledButton = styled.button`
     outline: none;
     border: none;
     font-size: 2rem;
-    width: 100%;
+    width: 300px;
     background-color: rgba(0, 0, 0, 0.7);
     color: white;
     padding: 10px 20px;
-    
-    @media (min-width: 992px) {
-        font-size: 5rem;
-        padding: 50px 70px;
-    }
 `;
 
 
@@ -70,7 +65,7 @@ const MainPage = () => {
                 <StyledHeader>BrainBoost</StyledHeader>
                 <StyledButtonWrapper>
                     <StyledButton onClick={() => navigate("/menu")}>Играть</StyledButton>
-                    <StyledButton>Статистика</StyledButton>
+                    <StyledButton onClick={() => navigate("/stats")}>Статистика</StyledButton>
                 </StyledButtonWrapper>
             </StyledCentredWrapper>
         </StyledWrapper>

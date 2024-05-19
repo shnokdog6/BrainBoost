@@ -1,4 +1,4 @@
-import React, {FC, memo, PropsWithChildren, useEffect, useRef, useState} from 'react';
+import React, {FC, memo, PropsWithChildren, useEffect, useState} from 'react';
 import styled, {keyframes} from "styled-components";
 import {Keyframes} from "styled-components/dist/types";
 
@@ -55,7 +55,7 @@ const StyledContent = styled.div`
 
 
 const OctagonButton: FC<ButtonProps> = memo(({children, onClick}) => {
-    const [animation, setAnimation] = useState<Keyframes | string>("none")
+    const [animation, setAnimation] = useState<Keyframes | string>(appearAnimation)
 
     useEffect(() => {
         if (children) {

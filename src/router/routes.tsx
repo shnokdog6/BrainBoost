@@ -1,7 +1,5 @@
-import {createBrowserRouter, createHashRouter} from "react-router-dom";
+import {createHashRouter} from "react-router-dom";
 import MainPage from "../pages/MainPage";
-import MenuPage from "../pages/MenuPage";
-import LowPop from "../pages/LowPop";
 
 export const routes = createHashRouter([
     {
@@ -11,10 +9,23 @@ export const routes = createHashRouter([
 
     {
         path: "/menu",
-        element: <MenuPage/>
+        async lazy() {
+            const {default: MenuPage} = await import("../pages/MenuPage");
+            return {Component: MenuPage};
+        }
+    },
+    {
+        path: "/stats",
+        async lazy() {
+            const {default: StatsPage} = await import("../pages/StatsPage");
+            return {Component: StatsPage};
+        }
     },
     {
         path: "/lowPop",
-        element: <LowPop/>
+        async lazy() {
+            const {default: LowPop} = await import("../pages/LowPop");
+            return {Component: LowPop};
+        }
     }
 ])

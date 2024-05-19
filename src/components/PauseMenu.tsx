@@ -38,9 +38,8 @@ const StyledButton = styled.button`
     font-size: 20px;
     background-color: rgba(0, 0, 0, 0.7);
     color: white;
-    width: 100%;
+    width: 300px;
     padding: 10px 20px;
-
 `;
 
 

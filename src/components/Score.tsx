@@ -11,6 +11,7 @@ const StyledWrapper = styled.div`
     top: 10px;
     color: white;
     font-size: 1rem;
+    font-weight: 600;
 `;
 
 const Score: FC<ScoreProps> = ({count}) => {

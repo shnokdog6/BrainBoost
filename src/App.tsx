@@ -1,7 +1,10 @@
-import React, {Fragment} from 'react';
+import React from 'react';
 import {createGlobalStyle} from "styled-components";
 import {routes} from "./router/routes";
 import {RouterProvider} from "react-router-dom";
+import {Provider} from "react-redux";
+import {persistor, store} from "./store";
+import {PersistGate} from 'redux-persist/integration/react';
 
 const GlobalStyles = createGlobalStyle`
     * {
@@ -18,10 +21,12 @@ const GlobalStyles = createGlobalStyle`
 
 function App() {
   return (
-      <Fragment>
-          <GlobalStyles/>
-          <RouterProvider router={routes}/>
-      </Fragment>
+      <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+              <GlobalStyles/>
+              <RouterProvider router={routes}/>
+          </PersistGate>
+      </Provider>
   );
 }
 
