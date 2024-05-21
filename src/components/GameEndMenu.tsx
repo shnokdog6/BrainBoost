@@ -1,11 +1,14 @@
 import React, {Dispatch, FC, SetStateAction} from 'react';
 import styled from 'styled-components';
 import {useNavigate} from "react-router-dom";
+import {useAppSelector} from "../store";
 import Button from "./Button";
 
 export interface PauseMenuProps {
     isVisible: boolean;
     setIsVisible: Dispatch<SetStateAction<boolean>>;
+    onRestart: () => void;
+    score: number;
 }
 
 
@@ -33,22 +36,41 @@ const StyledButtonWrapper = styled.div`
     gap: 20px;
 `;
 
-const PauseMenu: FC<PauseMenuProps> = ({isVisible, setIsVisible}) => {
+const StyledH2 = styled.h2`
+    color: white;
+    font-size: 3rem;
+`;
+
+const StyledH3 = styled.h3`
+    color: white;
+    font-size: 2.5rem;
+    margin-bottom: 100px;
+`;
+
+const GameEndMenu: FC<PauseMenuProps> = ({isVisible, setIsVisible, onRestart, score}) => {
     const navigate = useNavigate();
+    const {lowPop} = useAppSelector(state => state.user);
 
     function leave() {
         setIsVisible(false);
         navigate("/menu");
     }
 
+    function restart() {
+        setIsVisible(false);
+        onRestart();
+    }
+
     return (
         <StyledWrapper $isVisible={isVisible}>
             <StyledButtonWrapper>
-                <Button onClick={() =>  setIsVisible(false)}>Продолжить</Button>
+                <StyledH2>Вы набрали: {score}</StyledH2>
+                <StyledH3>Лучший: {lowPop}</StyledH3>
+                <Button onClick={restart}>Заново</Button>
                 <Button onClick={leave}>Выйти</Button>
             </StyledButtonWrapper>
         </StyledWrapper>
     );
 };
 
-export default PauseMenu;
+export default GameEndMenu;

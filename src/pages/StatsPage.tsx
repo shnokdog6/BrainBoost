@@ -1,27 +1,16 @@
 import React from 'react';
 import styled from "styled-components";
-import background from "../images/background.jpg";
 import {useNavigate} from "react-router-dom";
 import {useAppSelector} from "../store";
+import PageWrapper from "../components/PageWrapper";
+import Button from "../components/Button";
 
-const StyledWrapper = styled.div`
-    width: 100%;
-    height: 100%;
-    background: url(${background}) no-repeat;
-    background-size: cover;
-    position: relative;
+const StyledWrapper = styled(PageWrapper)`
     display: flex;
     flex-direction: column;
 `;
 
-const StyledButton = styled.button`
-    outline: none;
-    border: none;
-    font-size: 32px;
-    width: 300px;
-    background-color: rgba(0, 0, 0, 0.7);
-    color: white;
-    padding: 10px 20px;
+const StyledButton = styled(Button)`
     position: absolute;
     bottom: 20px;
     left: 0;

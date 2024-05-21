@@ -1,15 +1,8 @@
 import React from 'react';
 import styled from "styled-components";
 import {useNavigate} from "react-router-dom";
-import background from "../images/background.jpg"
-
-const StyledWrapper = styled.div`
-    width: 100%;
-    height: 100%;
-    background: url(${background}) no-repeat;
-    background-size: cover;
-    position: relative;
-`;
+import PageWrapper from "../components/PageWrapper";
+import Button from "../components/Button";
 
 const StyledCentredWrapper = styled.div`
     display: flex;
@@ -45,30 +38,22 @@ const StyledButtonWrapper = styled.div`
     margin-bottom: 100px;
 `;
 
-const StyledButton = styled.button`
-    outline: none;
-    border: none;
-    font-size: 2rem;
-    width: 300px;
-    background-color: rgba(0, 0, 0, 0.7);
-    color: white;
-    padding: 10px 20px;
-`;
+
 
 
 const MainPage = () => {
     const navigate = useNavigate();
 
     return (
-        <StyledWrapper>
+        <PageWrapper>
             <StyledCentredWrapper>
                 <StyledHeader>BrainBoost</StyledHeader>
                 <StyledButtonWrapper>
-                    <StyledButton onClick={() => navigate("/menu")}>Играть</StyledButton>
-                    <StyledButton onClick={() => navigate("/stats")}>Статистика</StyledButton>
+                    <Button onClick={() => navigate("/menu")}>Играть</Button>
+                    <Button onClick={() => navigate("/stats")}>Статистика</Button>
                 </StyledButtonWrapper>
             </StyledCentredWrapper>
-        </StyledWrapper>
+        </PageWrapper>
     );
 };
 

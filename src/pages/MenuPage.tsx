@@ -1,15 +1,8 @@
 import React from 'react';
 import styled from "styled-components";
 import {useNavigate} from "react-router-dom";
-import background from "../images/background.jpg"
-
-const StyledWrapper = styled.div`
-    width: 100%;
-    height: 100%;
-    background: url(${background}) no-repeat;
-    background-size: cover;
-    position: relative;
-`;
+import PageWrapper from "../components/PageWrapper";
+import Button from "../components/Button";
 
 const StyledCentredWrapper = styled.div`
     display: flex;
@@ -36,30 +29,19 @@ const StyledButtonWrapper = styled.div`
     }
 `;
 
-const StyledButton = styled.button`
-    outline: none;
-    border: none;
-    font-size: 32px;
-    width: 300px;
-    background-color: rgba(0, 0, 0, 0.7);
-    color: white;
-    padding: 10px 20px;
-`;
-
-
 const MenuPage = () => {
     const navigate = useNavigate();
 
     return (
-        <StyledWrapper>
+        <PageWrapper>
             <StyledCentredWrapper>
                 <StyledButtonWrapper>
-                    <StyledButton onClick={() => navigate("/lowPop")}>LowPop</StyledButton>
-                    <StyledButton>Memory Sweep</StyledButton>
-                    <StyledButton onClick={() => navigate("/")}>Назад</StyledButton>
+                    <Button onClick={() => navigate("/lowPop")}>LowPop</Button>
+                    <Button onClick={() => navigate("/memorySweep")}>Memory Sweep</Button>
+                    <Button onClick={() => navigate("/")}>Назад</Button>
                 </StyledButtonWrapper>
             </StyledCentredWrapper>
-        </StyledWrapper>
+        </PageWrapper>
     );
 };
 

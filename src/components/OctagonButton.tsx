@@ -54,7 +54,7 @@ const StyledContent = styled.div`
 `;
 
 
-const OctagonButton: FC<ButtonProps> = memo(({children, onClick}) => {
+const OctagonButton: FC<ButtonProps> = ({children, onClick}) => {
     const [animation, setAnimation] = useState<Keyframes | string>(appearAnimation)
 
     useEffect(() => {
@@ -83,6 +83,6 @@ const OctagonButton: FC<ButtonProps> = memo(({children, onClick}) => {
             </StyledContent>
         </StyledWrapper>
     );
-});
+};
 
 export default OctagonButton;

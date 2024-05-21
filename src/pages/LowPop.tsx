@@ -1,6 +1,5 @@
 import React, {useCallback, useEffect, useRef, useState} from 'react';
 import styled from "styled-components";
-import background from "../images/background.jpg";
 import OctagonButton from "../components/OctagonButton";
 import PauseButton from "../components/PauseButton";
 import Score from "../components/Score";
@@ -9,15 +8,13 @@ import usePauseMenu from "../hooks/usePauseMenu";
 import useUniqueKeys from "../hooks/useUniqueKeys";
 import usePassMessage from "../hooks/usePassMessage";
 import {setLowPopScore} from "../models/userSlice";
-import {useAppDispatch} from "../store";
-
-const StyledWrapper = styled.div`
-    width: 100%;
-    height: 100%;
-    background: url(${background}) no-repeat;
-    background-size: cover;
-    position: relative;
-`;
+import {useAppDispatch, useAppSelector} from "../store";
+import {useTimer} from "../hooks/useTimer";
+import Timer from "../components/Timer";
+import GameEndMenu from "../components/GameEndMenu";
+import PageWrapper from "../components/PageWrapper";
+import {formatTime} from "../lib/TimeFormatter";
+import {getRandomInt} from "../lib/Random";
 
 const StyledGrid = styled.div`
     position: absolute;
@@ -34,6 +31,7 @@ const StyledGrid = styled.div`
     justify-content: center;
 `;
 
+
 type ButtonState = "visible" | "hidden" | "switch";
 
 interface ButtonData {
@@ -41,23 +39,22 @@ interface ButtonData {
     state: ButtonState;
 }
 
-function getRandomInt(min: number, max: number) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
+
 
 const LowPop = () => {
     const [buttons, setButtons] = useState<ButtonData[]>([]);
     const [cellCount, setCellCount] = useState(0);
     const keys = useUniqueKeys(LowPop.name, cellCount);
+    const [minutes, seconds, timerStart, timerPause, timerRestart, onExpire] = useTimer({minutes: 1});
     const [numbers, setNumbers] = useState<number[]>([]);
     const [score, setScore] = useState<number>(0);
+    const [isGameEnd, setIsGameEnd] = useState(false);
     const scoreRef = useRef(score);
     const [failMessagePlaceholder, showFailMessage, onFailMessageHide] = useFailMessage(1);
     const [passMessagePlaceholder, showPassMessage, onPassMessageHide] = usePassMessage(1);
     const [pauseMenuPlaceholder, showPauseMenu, pauseMenuIsVisible] = usePauseMenu();
     const dispatch = useAppDispatch();
+    const {lowPop} = useAppSelector(state => state.user);
 
     function onButtonClick(id: number, content: number) {
         if (numbers[0] !== content) {
@@ -105,18 +102,33 @@ const LowPop = () => {
         setButtons(subsequence.map(item => ({value: item, state: item ? "visible" : "hidden"})));
     };
 
+    const restart = () => {
+        setScore(0);
+        generateLevel(cellCount);
+        timerRestart();
+    }
+
     useEffect(() => {
         if (!cellCount) return;
 
         onFailMessageHide(() => {
-            setScore(0);
             generateLevel(cellCount);
         });
+
         onPassMessageHide(() => {
             generateLevel(cellCount);
         });
 
+        onExpire(() => {
+            if (scoreRef.current > lowPop) {
+                dispatch(setLowPopScore(scoreRef.current));
+            }
+            setButtons([]);
+            setIsGameEnd(true);
+        });
+
         generateLevel(cellCount);
+        timerStart();
         // eslint-disable-next-line
     }, [cellCount]);
 
@@ -131,18 +143,24 @@ const LowPop = () => {
         setCellCount(columnCount * rowsCount);
     }, []);
 
+
     useEffect(() => {
         return () => {
-            dispatch(setLowPopScore(scoreRef.current));
+            if (scoreRef.current > lowPop) {
+                dispatch(setLowPopScore(scoreRef.current));
+            }
         }
         // eslint-disable-next-line
     }, []);
 
+
     return (
-        <StyledWrapper>
+        <PageWrapper>
+            <Timer>{formatTime(minutes, seconds)}</Timer>
             {failMessagePlaceholder}
             {passMessagePlaceholder}
             {pauseMenuPlaceholder}
+            <GameEndMenu isVisible={isGameEnd} setIsVisible={setIsGameEnd} onRestart={restart} score={score}/>
             <PauseButton onClick={showPauseMenu} aria-disabled={pauseMenuIsVisible}/>
             <Score count={score}/>
             <StyledGrid ref={initCellCount}>
@@ -162,7 +180,7 @@ const LowPop = () => {
                     }
                 })}
             </StyledGrid>
-        </StyledWrapper>
+        </PageWrapper>
     );
 };
 

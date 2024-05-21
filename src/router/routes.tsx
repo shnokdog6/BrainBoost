@@ -27,5 +27,12 @@ export const routes = createHashRouter([
             const {default: LowPop} = await import("../pages/LowPop");
             return {Component: LowPop};
         }
+    },
+    {
+        path: "/memorySweep",
+        async lazy() {
+            const {default: MemorySweepPage} = await import("../pages/MemorySweepPage");
+            return {Component: MemorySweepPage};
+        }
     }
 ])
