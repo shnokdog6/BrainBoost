@@ -20,10 +20,10 @@ const StyledButton = styled(Button)`
 
 const StyledDiv = styled.div`
     display: flex;
-    height: 95%;
+    flex-direction: column;
     padding: 10px;
     gap: 10px;
-    align-items: start;
+    align-items: center;
     justify-content: center;
 `;
 
@@ -33,12 +33,14 @@ const StyledH2 = styled.h2`
 
 const StatsPage = () => {
     const navigate = useNavigate();
-    const {lowPop} = useAppSelector(state => state.user)
+    const {lowPop, memorySweep} = useAppSelector(state => state.user)
 
+    console.log(memorySweep);
     return (
         <StyledWrapper>
             <StyledDiv>
                 <StyledH2>LowPop: {lowPop}</StyledH2>
+                <StyledH2>MemorySweep: {memorySweep}</StyledH2>
             </StyledDiv>
             <StyledButton onClick={() => navigate("/")}>Назад</StyledButton>
         </StyledWrapper>

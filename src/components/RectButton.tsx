@@ -1,10 +1,12 @@
-import React, {ButtonHTMLAttributes, FC, memo, useEffect, useState} from 'react';
+import React, {ButtonHTMLAttributes, FC, memo, PropsWithChildren, useEffect, useState} from 'react';
 import styled, {keyframes} from "styled-components";
 import {Keyframes} from "styled-components/dist/types";
 
-export interface RectButtonProps {
+export interface RectButtonProps extends PropsWithChildren {
     onClick?: () => void;
     selected?: boolean;
+    reshow?: boolean;
+    reset?: boolean;
 }
 
 export type ButtonColors = "#4eaf52" | "#f44133";
@@ -24,6 +26,20 @@ const appearAnimation = keyframes`
     }
 `;
 
+const showAnimation = keyframes`
+    0% {
+        transform: rotateY(0deg);
+    }
+    50% {
+        transform: rotateY(180deg);
+        background-color: #198de4;
+    }
+    100% {
+        transform: rotateY(180deg);
+        background-color: #198de4;
+    }
+`;
+
 const StyledButton = styled.button<{$animation?: Keyframes | string; $color?: string}>`
     width: 75px;
     height: 75px;
@@ -37,7 +53,7 @@ const StyledButton = styled.button<{$animation?: Keyframes | string; $color?: st
 
 
 
-const RectButton: FC<RectButtonProps> = ({onClick, selected}) => {
+const RectButton: FC<RectButtonProps> = ({children ,onClick, selected, reshow, reset}) => {
     const [animation, setAnimation] = useState<Keyframes>();
     const [color, setColor] = useState<ButtonColors>();
 
@@ -46,15 +62,40 @@ const RectButton: FC<RectButtonProps> = ({onClick, selected}) => {
         onClick?.();
     }
 
-    useEffect(() => {
-        console.log("mounted");
-    }, []);
+
+    // useEffect(() => {
+    //     if (selected) {
+    //         console.log(1);
+    //         setAnimation(appearAnimation);
+    //         const timeout = setTimeout(() => {
+    //             setAnimation(undefined);
+    //             clearTimeout(timeout);
+    //         }, 1200);
+    //     }
+    // }, [selected]);
 
     useEffect(() => {
-        if (selected) {
-            setAnimation(appearAnimation);
+        if (!children) {
+            setColor(undefined)
+            return;
         }
-    }, [selected]);
+        setAnimation(appearAnimation);
+        const timeout = setTimeout(() => {
+            setAnimation(undefined);
+            clearTimeout(timeout);
+        }, 1200);
+        setColor(undefined);
+    }, [children]);
+
+    useEffect(() => {
+        if (reshow) {
+            setAnimation(showAnimation);
+            const timeout = setTimeout(() => {
+                setAnimation(undefined);
+                clearTimeout(timeout);
+            }, 2000);
+        }
+    }, [reshow]);
 
     return (
         <StyledButton onClick={handleClick} $animation={animation} $color={color}/>

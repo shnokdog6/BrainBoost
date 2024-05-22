@@ -143,15 +143,11 @@ const LowPop = () => {
         setCellCount(columnCount * rowsCount);
     }, []);
 
-
-    useEffect(() => {
-        return () => {
-            if (scoreRef.current > lowPop) {
-                dispatch(setLowPopScore(scoreRef.current));
-            }
+    function saveRecord() {
+        if (scoreRef.current > lowPop) {
+            dispatch(setLowPopScore(scoreRef.current));
         }
-        // eslint-disable-next-line
-    }, []);
+    }
 
 
     return (
@@ -160,7 +156,7 @@ const LowPop = () => {
             {failMessagePlaceholder}
             {passMessagePlaceholder}
             {pauseMenuPlaceholder}
-            <GameEndMenu isVisible={isGameEnd} setIsVisible={setIsGameEnd} onRestart={restart} score={score}/>
+            <GameEndMenu onLeave={saveRecord} isVisible={isGameEnd} setIsVisible={setIsGameEnd} onRestart={restart} score={score} bestScore={lowPop}/>
             <PauseButton onClick={showPauseMenu} aria-disabled={pauseMenuIsVisible}/>
             <Score count={score}/>
             <StyledGrid ref={initCellCount}>

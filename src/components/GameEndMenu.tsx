@@ -8,7 +8,9 @@ export interface PauseMenuProps {
     isVisible: boolean;
     setIsVisible: Dispatch<SetStateAction<boolean>>;
     onRestart: () => void;
+    onLeave: () => void;
     score: number;
+    bestScore: number;
 }
 
 
@@ -47,12 +49,12 @@ const StyledH3 = styled.h3`
     margin-bottom: 100px;
 `;
 
-const GameEndMenu: FC<PauseMenuProps> = ({isVisible, setIsVisible, onRestart, score}) => {
+const GameEndMenu: FC<PauseMenuProps> = ({isVisible, setIsVisible, onRestart, onLeave, score, bestScore}) => {
     const navigate = useNavigate();
-    const {lowPop} = useAppSelector(state => state.user);
 
     function leave() {
         setIsVisible(false);
+        onLeave?.();
         navigate("/menu");
     }
 
@@ -65,7 +67,7 @@ const GameEndMenu: FC<PauseMenuProps> = ({isVisible, setIsVisible, onRestart, sc
         <StyledWrapper $isVisible={isVisible}>
             <StyledButtonWrapper>
                 <StyledH2>Вы набрали: {score}</StyledH2>
-                <StyledH3>Лучший: {lowPop}</StyledH3>
+                <StyledH3>Лучший: {bestScore}</StyledH3>
                 <Button onClick={restart}>Заново</Button>
                 <Button onClick={leave}>Выйти</Button>
             </StyledButtonWrapper>
